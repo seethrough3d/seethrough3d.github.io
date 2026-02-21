@@ -1,0 +1,547 @@
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeeThrough3D: Occlusion Aware 3D Control in Text-to-Image Generation</title>
+    <meta name="description"
+        content="We've presented Clarity, a minimalist and elegant website template for AI research.">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="robots" content="all">
+    <meta content="en_EN" property="og:locale">
+    <meta content="website" property="og:type">
+    <meta content="https://shikun.io/projects/clarity" property="og:url">
+    <meta content="Clarity" property="og:title">
+    <meta content="Website Template for AI Research" property="og:description">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@your_twitter_id">
+    <meta name="twitter:description" content="Clarity: A Minimalist Website Template for AI Research">
+    <meta name="twitter:image:src" content="assets/figures/clarity.png">
+
+    <link rel="stylesheet" type="text/css" media="all" href="assets/stylesheets/main_free.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="clarity/clarity.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/foundation.min.css">
+    <link href="assets/fontawesome-free-6.6.0-web/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+    <script src="assets/scripts/navbar.js"></script> <!-- Comment to remove table of content. -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            "HTML-CSS": {
+              scale: 95,
+              fonts: ["Gyre-Pagella"],
+              imageFont: null,
+              undefinedFamily: "'Arial Unicode MS', cmbright"
+            },
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+              }
+          });
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- Title Page -->
+    <!-- Dark Theme Example: Change the background colour dark and change the following div "blog-title" into "blog-title white". -->
+    <div class="container blog" id="first-content" style="background-color: #E0E4E6;">
+        <!-- If you don't have a project cover: Change "blog-title" into "blog-title no-cover"  -->
+        <div class="blog-title">
+            <div class="blog-intro">
+                <div>
+                    <h1 class="title">SeeThrough3D: Occlusion Aware 3D Control in Text-to-Image Generation</h1>
+                    <h2 style="font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #d32f2f;">CVPR 2026 🎉</h2>
+                    <p class="abstract">
+                        SeeThrough3D is a simple and effective method for occlusion aware 3D control in image
+                        generation. We propose a compact scene representation which jointy encodes object placement and orientation and camera viewpoint, while also explicitly modeling occlusions. The final scene representation is an image, which is used to condition the generative model for occlusion aware 3D layout control.  
+                    </p>
+
+                </div>
+
+                <div class="info">
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                        <span class="button icon"
+                            style="background-color: rgba(255, 255, 255, 0.15); margin-bottom: 0; opacity: 0.5; cursor: not-allowed; pointer-events: none;">Code <i
+                                class="fa-brands fa-github"></i></span>
+                        <span class="button icon"
+                            style="background-color: rgba(255, 255, 255, 0.15); margin-bottom: 0; opacity: 0.5; cursor: not-allowed; pointer-events: none;">arXiv <i
+                                class="fa-solid fa-file-lines"></i></span>
+                        <span class="button icon"
+                            style="background-color: rgba(255, 255, 255, 0.15); margin-bottom: 0; opacity: 0.5; cursor: not-allowed; pointer-events: none;">Demo 🤗</span>
+                        <span class="button icon"
+                            style="background-color: rgba(255, 255, 255, 0.15); margin-bottom: 0; opacity: 0.5; cursor: not-allowed; pointer-events: none;">Dataset 🤗</span>
+                        <span style="font-size: 14px; font-style: italic; color: rgba(255,255,255,0.85); font-weight: 600;">⏳ Coming soon!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blog-cover">
+                <video loop playsinline muted autoplay style="width: 100%;">
+                    <source src="teaser.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- <div class="blog-cover" id="teaser-slideshow" style="position: relative;">
+                <div class="slideshow-buttons"
+                    style="position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); z-index: 20; pointer-events: none;">
+                    <button onclick="changeTeaserSlide(-1)"
+                        style="pointer-events: auto; background: rgba(255,255,255,0.7); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; margin-left: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #333;">&lt;</button>
+                    <button onclick="changeTeaserSlide(1)"
+                        style="pointer-events: auto; background: rgba(255,255,255,0.7); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #333;">&gt;</button>
+                </div>
+                <img class="foreground" id="teaser-foreground" src="teaser_imgs/000/000.png" style="width: 100%;">
+                <div class="teaser-interactions"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; z-index: 10;">
+                    <div class="teaser-region" onmouseenter="setTeaserFrame(0)" style="flex: 1; height: 100%;"></div>
+                    <div class="teaser-region" onmouseenter="setTeaserFrame(1)" style="flex: 1; height: 100%;"></div>
+                    <div class="teaser-region" onmouseenter="setTeaserFrame(2)" style="flex: 1; height: 100%;"></div>
+                    <div class="teaser-region" onmouseenter="setTeaserFrame(3)" style="flex: 1; height: 100%;"></div>
+                    <div class="teaser-region" onmouseenter="setTeaserFrame(4)" style="flex: 1; height: 100%;"></div>
+                    <div class="teaser-region" onmouseenter="setTeaserFrame(5)" style="flex: 1; height: 100%;"></div>
+                </div>
+            </div> -->
+            <!-- <script>
+                // Configuration
+                const teaserExamples = ['000', '001'];
+                let currentTeaserIndex = 0;
+                const teaserImages = {};
+
+                // Preload images
+                teaserExamples.forEach(ex => {
+                    teaserImages[ex] = [];
+                    for (let i = 0; i < 6; i++) {
+                        const img = new Image();
+                        img.src = `teaser_imgs/${ex}/00${i}.png`;
+                        teaserImages[ex].push(img);
+                    }
+                });
+
+                function changeTeaserSlide(direction) {
+                    currentTeaserIndex = (currentTeaserIndex + direction + teaserExamples.length) % teaserExamples.length;
+                    setTeaserFrame(0); // Reset to first frame of new example
+                }
+
+                function setTeaserFrame(frameIndex) {
+                    const exampleId = teaserExamples[currentTeaserIndex];
+                    const foreground = document.getElementById('teaser-foreground');
+                    if (foreground && teaserImages[exampleId] && teaserImages[exampleId][frameIndex]) {
+                        foreground.src = teaserImages[exampleId][frameIndex].src;
+                    }
+                }
+            </script> -->
+        </div>
+    </div>
+
+
+    <div class="container blog main first" id="blog-main">
+        <p class="author" style="text-align: center; margin-bottom: 0; font-size: 24px; font-weight: 600;">
+            <a href="https://va1bhavagrawal.github.io" target="_blank">Vaibhav Agrawal</a><sup>1</sup> &emsp;
+            <a href="https://rishubhpar.github.io" target="_blank">Rishubh Parihar</a><sup>2</sup> &emsp;
+            <a href="http://linkedin.com/in/pradhaan-s-bhat" target="_blank">Pradhaan S Bhat</a><sup>2</sup> &emsp;<br>
+            <a href="https://ravika.github.io/" target="_blank">Ravi Kiran S.</a><sup>1,†</sup> &emsp;
+            <a href="https://cds.iisc.ac.in/faculty/venky/" target="_blank">R. Venkatesh Babu</a><sup>2,†</sup>
+        </p>
+        <p style="text-align: center; margin-top: 5px; font-size: 18px; color: #555;">
+            <sup>1</sup>IIIT Hyderabad &nbsp;&nbsp; <sup>2</sup>IISc Bengaluru
+        </p>
+        <p style="text-align: center; margin-top: 2px; font-size: 14px; color: #666;">
+            <sup>†</sup>Equal advising 
+        </p>
+        <h1>
+            Abstract
+        </h1>
+        <p class='text' align="justify">
+            We identify occlusion reasoning as a fundamental yet overlooked aspect for 3D layout–conditioned generation.
+            It is essential for synthesizing partially occluded objects with depth-consistent geometry and scale. While
+            existing methods can generate realistic scenes that follow input layouts, they often fail to model precise
+            inter-object occlusions. We propose <b>SeeThrough3D</b>, a model for 3D layout conditioned
+            generation that explicitly models occlusions. We introduce an occlusion-aware 3D scene representation
+            (OSCR), where objects
+            are depicted as translucent 3D boxes placed within a virtual environment and rendered from desired camera
+            viewpoint. The transparency encodes hidden object regions, enabling the model to reason about occlusions,
+            while the rendered viewpoint provides explicit camera control during generation. We condition a pretrained
+            flow based text-to-image image generation model by introducing a set of visual tokens derived from our
+            rendered 3D representation. Furthermore, we apply masked self-attention to accurately bind each object
+            bounding box to its corresponding textual description, enabling accurate generation of multiple objects
+            without object attribute mixing. To train the model, we construct a synthetic dataset with diverse
+            multi-object scenes with strong inter-object occlusions. SeeThrough3D generalizes effectively to unseen
+            object categories and enables precise 3D layout control with realistic occlusions and consistent camera
+            control.
+        </p>
+
+        <!-- <p class="text">
+            In today's AI research landscape, particularly with the rise of generative AI, it's increasingly beneficial
+            for AI researchers to include interactive blog posts alongside research publications. Additional media
+            materials and online demos, popularised by <a href="https://github.com/gradio-app/awesome-demos">Gradio
+                Demos</a>, can make research more accessible and engaging to a broader audience. While large
+            corporations can easily leverage teams of graphic designers and writers to polish their design and writing,
+            Ph.D. students and independent AI researchers often lack the time and resources to do so. Clarity bridges
+            this gap by offering an aesthetically pleasing, easy-to-navigate template for presenting AI research,
+            simplifying the process of creating visually appealing technical blog posts.
+        </p> -->
+
+        <!-- <p class="text">
+            The inspiration for Clarity also comes from many AI pioneers who have written clear and interactive blog
+            posts that have significantly helped me study new machine learning research and insights. I'd like to extend
+            my deepest gratitude to <a href="https://otoro.net/ml/">David Ha</a>, <a
+                href="https://colah.github.io/about.html">Chris Olah</a> (as well as his great contribution to <a
+                href="https://distill.pub/">Distill Pub</a> and <a href="https://transformer-circuits.pub/">Transformer
+                Circuits</a>), <a href="https://lilianweng.github.io/">Lilian Weng</a>, <a
+                href="https://www.inference.vc/about/">Ferenc Huszár</a>, and <a
+                href="https://karpathy.github.io/">Andrej Karpathy</a>. Their work has demonstrated the power of clear,
+            accessible communication in AI research, and Clarity aims to continue this tradition, fostering a community
+            where <em> knowledge can be shared easily, freely and beautifully.</em>
+        </p> -->
+
+        <!-- <p class="text">
+            Within this template, I will also introduce some design guidelines and tips, complemented by visual examples
+            from my own projects and those I admire. These guidelines will help you create a polished and professional
+            presentation for your research, ensuring your findings are communicated as effectively as possible.
+        </p> -->
+    </div>
+
+    <div class="container blog main gray">
+        <h1>
+            Take control! 
+        </h1>
+        <!-- <img src="clarity/images/vit.png">
+        <p class="caption">
+            We split an image into fixed-size patches, linearly embed each of them, add position embeddings, and feed
+            the resulting sequence of vectors to a standard Transformer encoder. In order to perform classification, we
+            use the standard approach of adding an extra learnable “classification token” (represented as a gray image
+            patch) to the sequence.
+        </p> -->
+
+        <div class="columns-2">
+            <!-- First Demo (6 images) -->
+            <div style="position: relative;">
+                <img id="demo1-image" src="teaser_imgs/000/000.png" style="width: 100%; display: block;">
+                <div id="demo1-scroll-area" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: ns-resize;">
+                </div>
+                <div class="scroll-hint-overlay" id="demo1-hint">
+                    <div class="scroll-hint-icon">
+                        <i class="fa-solid fa-computer-mouse"></i>
+                        <div class="scroll-hint-arrows">
+                            <i class="fa-solid fa-chevron-up"></i>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <span>Scroll to interact</span>
+                </div>
+                <p class="caption" style="margin-top: 10px; text-align: center;">Scroll to control the bird!</p>
+            </div>
+
+            <!-- Second Demo (8 images) -->
+            <div style="position: relative;">
+                <img id="demo2-image" src="teaser_imgs/001/000.png" style="width: 100%; display: block;">
+                <div id="demo2-scroll-area" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: ns-resize;">
+                </div>
+                <div class="scroll-hint-overlay" id="demo2-hint">
+                    <div class="scroll-hint-icon">
+                        <i class="fa-solid fa-computer-mouse"></i>
+                        <div class="scroll-hint-arrows">
+                            <i class="fa-solid fa-chevron-up"></i>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <span>Scroll to interact</span>
+                </div>
+                <p class="caption" style="margin-top: 10px; text-align: center;">Scroll to control the camera!</p>
+            </div>
+        </div>
+
+        <script>
+            // Configuration for two demos
+            const demo1Config = {
+                folder: '000',
+                numImages: 6,
+                images: [],
+                currentFrame: 0,
+                scrollAccumulator: 0
+            };
+
+            const demo2Config = {
+                folder: '001',
+                numImages: 8,
+                images: [],
+                currentFrame: 0,
+                scrollAccumulator: 0
+            };
+
+            const scrollSensitivity = 200; // Adjust for scroll sensitivity
+
+            // Preload images for both demos
+            function preloadDemoImages(config) {
+                for (let i = 0; i < config.numImages; i++) {
+                    const img = new Image();
+                    const frameNum = i.toString().padStart(3, '0');
+                    img.src = `teaser_imgs/${config.folder}/${frameNum}.png`;
+                    config.images.push(img);
+                }
+            }
+
+            preloadDemoImages(demo1Config);
+            preloadDemoImages(demo2Config);
+
+            // Handle scroll for a demo
+            function handleDemoScroll(e, config, imageElementId) {
+                e.preventDefault();
+                
+                config.scrollAccumulator += e.deltaY;
+
+                if (config.scrollAccumulator >= scrollSensitivity) {
+                    // Scrolled DOWN - go to next frame
+                    let nextFrame = Math.min(config.numImages - 1, config.currentFrame + 1);
+                    if (nextFrame !== config.currentFrame) {
+                        config.currentFrame = nextFrame;
+                        document.getElementById(imageElementId).src = config.images[config.currentFrame].src;
+                        config.scrollAccumulator = 0;
+                    } else {
+                        config.scrollAccumulator = scrollSensitivity;
+                    }
+                } else if (config.scrollAccumulator <= -scrollSensitivity) {
+                    // Scrolled UP - go to previous frame
+                    let nextFrame = Math.max(0, config.currentFrame - 1);
+                    if (nextFrame !== config.currentFrame) {
+                        config.currentFrame = nextFrame;
+                        document.getElementById(imageElementId).src = config.images[config.currentFrame].src;
+                        config.scrollAccumulator = 0;
+                    } else {
+                        config.scrollAccumulator = -scrollSensitivity;
+                    }
+                }
+            }
+
+            // Attach scroll listeners
+            document.getElementById('demo1-scroll-area').addEventListener('wheel', function(e) {
+                handleDemoScroll(e, demo1Config, 'demo1-image');
+            }, { passive: false });
+
+            document.getElementById('demo2-scroll-area').addEventListener('wheel', function(e) {
+                handleDemoScroll(e, demo2Config, 'demo2-image');
+            }, { passive: false });
+
+            // --- Synchronized Scroll Hint Overlay Logic ---
+            (function() {
+                const scrollAreas = [
+                    document.getElementById('demo1-scroll-area'),
+                    document.getElementById('demo2-scroll-area')
+                ];
+                const hints = [
+                    document.getElementById('demo1-hint'),
+                    document.getElementById('demo2-hint')
+                ];
+                let inactivityTimer = null;
+
+                function showHints() {
+                    hints.forEach(function(h) { h.classList.add('visible'); });
+                }
+
+                function hideHints() {
+                    hints.forEach(function(h) { h.classList.remove('visible'); });
+                }
+
+                function resetInactivityTimer() {
+                    if (inactivityTimer) clearTimeout(inactivityTimer);
+                    hideHints();
+                    inactivityTimer = setTimeout(showHints, 3000);
+                }
+
+                scrollAreas.forEach(function(area) {
+                    area.addEventListener('mousemove', resetInactivityTimer);
+                    area.addEventListener('wheel', resetInactivityTimer);
+                });
+
+                // Show hints on initial load
+                showHints();
+            })();
+        </script>
+
+        <style>
+            .scroll-hint-overlay {
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.35);
+                z-index: 15;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.25s ease;
+                border-radius: 4px;
+            }
+            .scroll-hint-overlay.visible {
+                opacity: 1;
+            }
+            .scroll-hint-overlay span {
+                color: #fff;
+                font-size: 14px;
+                font-weight: 600;
+                margin-top: 10px;
+                letter-spacing: 0.5px;
+                text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+            }
+            .scroll-hint-icon {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: #fff;
+                font-size: 28px;
+                filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+                animation: hintBounce 1s ease-in-out;
+            }
+            .scroll-hint-arrows {
+                display: flex;
+                flex-direction: column;
+                font-size: 16px;
+                gap: 2px;
+            }
+            @keyframes hintBounce {
+                0%, 100% { transform: translateY(0); }
+                25% { transform: translateY(-6px); }
+                50% { transform: translateY(0); }
+                75% { transform: translateY(6px); }
+            }
+        </style>
+
+    </div>
+
+
+    <div class="container blog main">
+        <h1>
+            An occlusion aware 3D scene representation
+        </h1>
+
+        <p class="text">
+            Existing methods for 3D scene control condition the generative model on depth maps derived from 3D bounding-box scene layouts. These methods succeed in generating simple scenes with few objects and minimal occlusion, but fail to model significant inter-object occlusion in multi-object layouts. 
+        </p>
+
+        <p class="text">
+            To address this issue, we propose an Occlusion-Aware 3D Scene Representation (OSCR). In OSCR, objects are represented as translucent 3D boxes placed within a virtual environment and rendered from the desired camera viewpoint. The transparency encodes hidden object regions, enabling the model to reason about occlusions, while the rendered viewpoint provides explicit camera control during generation. Further, the box faces are colored to encode orientation. The resulting rendered image is used to condition the generative model, thus providing for a compact yet effective representation for 3D layout control.   
+        </p>
+
+        <p class="text">
+        </p>
+
+        <img src="oscr_imgs/website_oscr.svg" style="width: 70%;">
+
+        <!-- <p class="text">
+        </p> -->
+
+        <!-- <p class="text">
+            Here is an example I redesigned, illustrating the architectural details in <a
+                href="https://arxiv.org/abs/2010.11929">Vision Transformers (ViTs)</a>.
+        </p> -->
+    </div>
+
+    <div class="container blog main">
+        <h1>
+            Method
+        </h1>
+
+        <p class="text">
+            The OSCR representation is obtained by rendering the translucent bounding boxes from the desired camera viewpoint in Blender. The rendered OSCR representation is then encoded through the latent autoencoder to obtain OSCR tokens. These OSCR tokens are then introduced into the mmDiT blocks along with image and text tokens, thus conditioning the generation process on 3D layout. 
+        </p>
+
+        <p class="text">
+            To bind each box in the OSCR representation to its corresponding textual description, we apply masked self-attention to the OSCR tokens. This allows the model to accurately associate each object bounding box with its corresponding text description, enabling accurate generation of multiple objects without attribute mixing. 
+        </p>
+
+        <p class="text">
+        </p>
+
+
+        <!-- <p class="text">
+        </p> -->
+
+        <!-- <p class="text">
+            Here is an example I redesigned, illustrating the architectural details in <a
+                href="https://arxiv.org/abs/2010.11929">Vision Transformers (ViTs)</a>.
+        </p> -->
+    </div>
+
+
+    <div class="container blog extra-large">
+        <div class="columns-2">
+            <img src="method_overview.svg" style="width: 100%;"> 
+            <img src="masked_attention_v2.svg" style="width: 100%;">
+        </div>
+        <p class="caption">
+        </p>
+    </div>
+
+    <div class="container blog main">
+        <h1>
+            Qualitative Results
+        </h1>
+        <p class="text">
+            SeeThrough3D generates images that accurately follow the input 3D layout, with realistic occlusions and consistent camera control across diverse object categories.
+        </p>
+    </div>
+    <div class="container blog max gray">
+        <div class="slideshow">
+            <div class="navigation">
+                <a class="button icon" id="prev_btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <a class="button icon" id="next_btn"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="slider">
+                <div class="slider-item">
+                    <img src="qual_results/000.svg" style="width: 100%;">
+                </div>
+                <div class="slider-item">
+                    <img src="qual_results/001.svg" style="width: 100%;">
+                </div>
+                <div class="slider-item">
+                    <img src="qual_results/002.svg" style="width: 100%;">
+                </div>
+                <div class="slider-item">
+                    <img src="qual_results/003.svg" style="width: 100%;">
+                </div>
+                <div class="slider-item">
+                    <img src="qual_results/004.svg" style="width: 100%;">
+                </div>
+                <div class="slider-item">
+                    <img src="qual_results/005.svg" style="width: 100%;">
+                </div>
+                <div class="slider-item">
+                    <img src="qual_results/006.svg" style="width: 100%;">
+                </div>
+                <div class="slider-item">
+                    <img src="qual_results/007.svg" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer Page -->
+    <footer>
+        <div class="container">
+            <p>
+                This website is built on the <a href="https://shikun.io/projects/clarity">Clarity Template</a>, designed
+                by <a href="https://shikun.io/">Shikun Liu</a>.
+            </p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="clarity/clarity.js"></script>
+    <script src="assets/scripts/main.js"></script>
+
+</html>
+</body>
